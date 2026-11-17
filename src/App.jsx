@@ -7,6 +7,7 @@ import NewEvent from "./pages/NewEvent.jsx";
 import EventDetail from "./pages/EventDetail.jsx";
 import CheckoutPage from "./pages/CheckoutPage.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import TicketingBooking from "./components/TicketBooking.jsx"; // Import the TicketBooking component
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
           <Route path="/events/new" element={<NewEvent />} />
           <Route path="/events/:id" element={<EventDetail />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/ticketing" element={<TicketingBooking />} />  
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
