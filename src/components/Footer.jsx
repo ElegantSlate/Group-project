@@ -1,3 +1,9 @@
-export default function Footer() {
-  return <h1>Footer</h1>;
+   export default function Footer() {
+  return (
+    <footer className="footer">
+      <div className="footer-content">
+        <p> 2026 EventHub. All rights reserved.</p>
+      </div>
+    </footer>
+  );
 }
