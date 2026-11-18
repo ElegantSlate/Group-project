@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar.jsx";
+import Header from "./components/Header";
 import Footer from "./components/Footer.jsx";
 import Home from "./pages/Home.jsx";
 import Events from "./pages/Events.jsx";
@@ -7,12 +7,12 @@ import NewEvent from "./pages/NewEvent.jsx";
 import EventDetail from "./pages/EventDetail.jsx";
 import CheckoutPage from "./pages/CheckoutPage.jsx";
 import NotFound from "./pages/NotFound.jsx";
-import TicketingBooking from "./components/TicketBooking.jsx"; // Import the TicketBooking component
+import TicketingBooking from "./components/TicketBooking.jsx";
 
-export default function App() {
+function App() {
   return (
     <div className="app">
-      <Navbar />
+      <Header />
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -20,7 +20,7 @@ export default function App() {
           <Route path="/events/new" element={<NewEvent />} />
           <Route path="/events/:id" element={<EventDetail />} />
           <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/ticketing" element={<TicketingBooking />} />  
+          <Route path="/ticketing" element={<TicketingBooking />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
@@ -28,3 +28,6 @@ export default function App() {
     </div>
   );
 }
+
+export default App;
+
