@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const API_URL = "http://localhost:3001/events";
+const API_URL = "http://localhost:3000/events";
 
 const INITIAL_EVENTS = [
   {
     id: "1",
-    title: "SolFest 2026",
+    name: "SolFest 2026",
     category: "Concert",
     date: "2026-12-12",
     venue: "Uhuru Gardens, Nairobi",
@@ -21,7 +21,7 @@ const INITIAL_EVENTS = [
   },
   {
     id: "2",
-    title: "Vulai Show",
+    name: "Vulai Show",
     category: "Comedy & Arts",
     date: "2026-11-28",
     venue: "Kenya National Theatre, Nairobi",
@@ -36,7 +36,7 @@ const INITIAL_EVENTS = [
   },
   {
     id: "3",
-    title: "Ajax vs Bayern Munich",
+    name: "Ajax vs Bayern Munich",
     category: "Sports",
     date: "2026-12-05",
     venue: "Johan Cruijff ArenA, Amsterdam",
@@ -51,7 +51,7 @@ const INITIAL_EVENTS = [
   },
   {
     id: "4",
-    title: "KulaKula Food & Music Festival",
+    name: "KulaKula Food & Music Festival",
     category: "Food & Culture",
     date: "2026-12-19",
     venue: "Carnivore Grounds, Nairobi",
@@ -66,7 +66,7 @@ const INITIAL_EVENTS = [
   },
   {
     id: "5",
-    title: "Nairobi Tech & Innovation Summit",
+    name: "Nairobi Tech & Innovation Summit",
     category: "Tech & Business",
     date: "2027-01-16",
     venue: "KICC, Nairobi",
@@ -81,7 +81,7 @@ const INITIAL_EVENTS = [
   },
   {
     id: "6",
-    title: "Rift Valley Sunset Jazz & Wine",
+    name: "Rift Valley Sunset Jazz & Wine",
     category: "Concert",
     date: "2027-01-30",
     venue: "Lake Naivasha Waterfront",
@@ -116,7 +116,7 @@ function EventList() {
 
   const filteredEvents = events.filter((event) => {
     const matchesSearch =
-      event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      event.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       event.venue.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory =
       selectedCategory === "All" || event.category === selectedCategory;
