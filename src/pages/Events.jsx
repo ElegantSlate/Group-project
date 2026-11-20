@@ -1,3 +1,5 @@
+import Eventlist from "../components/EventList.jsx";
+
 export default function Events() {
-  return <h1>Events</h1>;
+  return <Eventlist />;
 }

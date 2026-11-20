@@ -1,265 +1,314 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 
-const API_URL = "http://localhost:3000/events";
+import { useState } from "react";
 
-const INITIAL_EVENTS = [
+const events = [
   {
-    id: "1",
-    name: "SolFest 2026",
-    category: "Concert",
-    date: "2026-12-12",
-    venue: "Uhuru Gardens, Nairobi",
-    image: "https://unsplash.com",
-    description:
-      "East Africa's biggest end-of-year music festival celebrating Kenyan sound, live bands, and electrifying stage performances.",
-    tickets: [
-      { id: "regular", name: "Regular", price: 2500, available: 150 },
-      { id: "vip", name: "VIP", price: 6000, available: 50 },
-      { id: "vvip", name: "VVIP", price: 12000, available: 20 },
-    ],
-  },
-  {
-    id: "2",
-    name: "Vulai Show",
-    category: "Comedy & Arts",
-    date: "2026-11-28",
-    venue: "Kenya National Theatre, Nairobi",
-    image: "https://unsplash.com",
-    description:
-      "An unforgettable night of live stand-up comedy, spoken word, and theatrical storytelling featuring top local headliners.",
-    tickets: [
-      { id: "regular", name: "Regular", price: 1500, available: 80 },
-      { id: "vip", name: "VIP", price: 3000, available: 30 },
-      { id: "vvip", name: "VVIP", price: 5000, available: 10 },
-    ],
-  },
-  {
-    id: "3",
-    name: "Ajax vs Bayern Munich",
-    category: "Sports",
+    id: 1,
+    title: "Zaituni Live",
+    category: "Music & culture",
     date: "2026-12-05",
-    venue: "Johan Cruijff ArenA, Amsterdam",
-    image: "https://unsplash.com",
+    time: "9:00 AM",
+    venue: "Covo, Hurlingham",
+    price: "KSh 2,500",
     description:
-      "European football giants clash under the floodlights in a high-stakes showdown packed with world-class talent.",
-    tickets: [
-      { id: "regular", name: "Regular", price: 4500, available: 200 },
-      { id: "vip", name: "VIP", price: 9500, available: 60 },
-      { id: "vvip", name: "VVIP", price: 18000, available: 15 },
-    ],
+      "An evening live performance by Zaituni and the clan Band.",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVOHxu_FMXpYB_nNDkU8RMVDxS37-zsoJEMZVpEXxqxw&s=1024",
+},
+  {
+    id: 2,
+    title: "Sol Fest",
+    category: "Music & culture",
+    date: "2026-12-(17-19) ",
+    time: "4:00 PM",
+    venue: "Uhuru Gardens, Nairobi",
+    price: "KSh 1,500",
+    description:
+      "The massive closing-day concert featuring high-energy crowds,nostalgic 2019 Gengetone sets and the heritage collective.",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoEZxo9CqjGkUt3fZifiiXWmm9v1SP2ygFbBYggBfr5A&s=1024",
   },
   {
-    id: "4",
-    name: "KulaKula Food & Music Festival",
-    category: "Food & Culture",
-    date: "2026-12-19",
-    venue: "Carnivore Grounds, Nairobi",
-    image: "https://unsplash.com",
+    id: 3,
+    title: "FC Bayern Munich VS AFC Ajax Match",
+    category: "sports",
+    date: "2027-01-5",
+    time: "11:00 AM",
+    venue: "Raila Omollo Stadium, Nairobi",
+    price: "KSh 45000",
     description:
-      "A vibrant culinary and music experience bringing together street food chefs, nyama choma masters, and live DJs.",
-    tickets: [
-      { id: "regular", name: "Regular", price: 1200, available: 120 },
-      { id: "vip", name: "VIP", price: 2800, available: 40 },
-      { id: "vvip", name: "VVIP", price: 5500, available: 15 },
-    ],
+      "come enjoy the match and take photographs with the non cholant OLISE and the ballon dior winner Harry Cane and not to forget to launch the newly built 60000 capacity stadium.",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbBMd2I_g51Tkw9YlxcD2dUBmGl1Tv1Hh6Mi9G5dWFWg&s=1024",
   },
   {
-    id: "5",
-    name: "Nairobi Tech & Innovation Summit",
-    category: "Tech & Business",
+    id: 4,
+    title: "Business & Startup Expo",
+    category: "Business",
     date: "2027-01-16",
-    venue: "KICC, Nairobi",
-    image: "https://unsplash.com",
+    time: "8:30 AM",
+    venue: "Sarit Expo Centre, Nairobi",
+    price: "KSh 2,000",
     description:
-      "Connect with software engineers, startup founders, and investors shaping the future of African technology.",
-    tickets: [
-      { id: "regular", name: "Regular", price: 2000, available: 100 },
-      { id: "vip", name: "VIP", price: 5000, available: 35 },
-      { id: "vvip", name: "VVIP", price: 10000, available: 12 },
-    ],
+      "Connect with entrepreneurs, discover new business ideas, meet potential partners, and learn practical strategies for growing a startup.",
+    image:
+      "https://images.unsplash.com/photo-1511578314322-379afb476865?w=900",
   },
   {
-    id: "6",
-    name: "Rift Valley Sunset Jazz & Wine",
-    category: "Concert",
-    date: "2027-01-30",
-    venue: "Lake Naivasha Waterfront",
-    image: "https://unsplash.com",
+    id: 5,
+    title: "Vulai Festival",
+    category: "music & culture",
+    date: "2026-11-28",
+    time: "4:00 PM",
+    venue: "Utalii sports ground, Nairobi",
+    price: "KSh 2,000",
     description:
-      "Smooth Afro-jazz melodies by the lakeside paired with artisan wines and panoramic Rift Valley sunset views.",
-    tickets: [
-      { id: "regular", name: "Regular", price: 3000, available: 90 },
-      { id: "vip", name: "VIP", price: 6500, available: 30 },
-      { id: "vvip", name: "VVIP", price: 11000, available: 10 },
-    ],
+      "Non-stop traditional and contemporary Luhya music,culture showcases,food experience and performances.",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdiZ7hFIUlU3oJNP6y7sQldkZ-IVgSQvw1as9IqnUD4Q&s=1024",
+  },
+  {
+    id: 6,
+    title: "Innovation & AI Conference",
+    category: "Technology",
+    date: "2027-02-06",
+    time: "9:30 AM",
+    venue: "Two Rivers, Nairobi",
+    price: "KSh 3,000",
+    description:
+      "Discover emerging AI tools, practical innovations, and new opportunities shaping the future of business and software development.",
+    image:
+      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=900",
   },
 ];
 
-function EventList() {
-  const [events, setEvents] = useState(INITIAL_EVENTS);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+const formatDate = (date) =>
+  new Date(`${date}T12:00:00`).toLocaleDateString("en-KE", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
 
-  useEffect(() => {
-    fetch(API_URL)
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (Array.isArray(data) && data.length > 0) {
-          setEvents(data);
-        }
-      })
-      .catch(() => {});
-  }, []);
+function Eventlist() {
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("All");
 
-  const categories = ["All", ...new Set(events.map((event) => event.category))];
+  const categories = [
+    "All",
+    ...new Set(events.map((event) => event.category)),
+  ];
 
-  const filteredEvents = events.filter((event) => {
+  const upcomingEvents = events.filter((event) => {
     const matchesSearch =
-      event.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      event.venue.toLowerCase().includes(searchTerm.toLowerCase());
+      event.title.toLowerCase().includes(search.toLowerCase()) ||
+      event.venue.toLowerCase().includes(search.toLowerCase());
+
     const matchesCategory =
-      selectedCategory === "All" || event.category === selectedCategory;
+      category === "All" || event.category === category;
+
     return matchesSearch && matchesCategory;
   });
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="text-center max-w-2xl mx-auto mb-8">
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
-          Upcoming Events
-        </h1>
-        <p className="text-gray-600 mt-2 text-base sm:text-lg">
-          Discover concerts, sports clashes, comedy nights, and food
-          festivals—grab your tickets before they sell out.
-        </p>
-      </div>
-
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8 bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-        <div className="w-full md:w-80">
-          <label htmlFor="event-search" className="sr-only">
-            Search events
-          </label>
-          <input
-            id="event-search"
-            type="text"
-            placeholder="Search by event name or venue..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
-
-        <div className="flex flex-wrap justify-center gap-2">
-          {categories.map((category) => (
-            <button
-              key={category}
-              type="button"
-              onClick={() => setSelectedCategory(category)}
-              className={`px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium transition ${
-                selectedCategory === category
-                  ? "bg-blue-600 text-white shadow-sm"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {filteredEvents.length === 0 ? (
-        <div className="text-center py-16 bg-white rounded-2xl border border-gray-100">
-          <p className="text-gray-500 text-lg font-medium">
-            No events match "{searchTerm}".
+    <section className="min-h-screen bg-slate-50 px-4 py-12 sm:px-6 lg:px-12">
+      <div className="mx-auto max-w-7xl">
+        {/* Page heading */}
+        <div className="mb-10 text-center">
+          <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-indigo-600">
+            Discover experiences
           </p>
-          <button
-            type="button"
-            onClick={() => {
-              setSearchTerm("");
-              setSelectedCategory("All");
-            }}
-            className="mt-3 text-sm font-semibold text-blue-600 hover:underline"
-          >
-            Reset filters
-          </button>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredEvents.map((event) => {
-            const startingPrice = event.tickets?.length
-              ? Math.min(...event.tickets.map((t) => t.price))
-              : null;
 
-            return (
+          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
+            Upcoming Events
+          </h1>
+
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
+            Find your next unforgettable experience. Explore events,
+            discover new places, and get ready to make memories.
+          </p>
+        </div>
+
+        {/* Search and category filters */}
+        <div className="mb-8 flex flex-col gap-4 md:flex-row">
+          <input
+            type="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search events or venues..."
+            aria-label="Search events or venues"
+            className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 md:flex-1"
+          />
+
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            aria-label="Filter by category"
+            className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-700 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+          >
+            {categories.map((item) => (
+              <option key={item} value={item}>
+                {item === "All" ? "All Categories" : item}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Event count */}
+        <div className="mb-5 flex items-center justify-between">
+          <h2 className="text-xl font-bold text-slate-900">
+            Find Your Event
+          </h2>
+
+          <span className="rounded-full bg-indigo-50 px-3 py-1 text-sm font-semibold text-indigo-700">
+            {upcomingEvents.length} events
+          </span>
+        </div>
+
+        {/* Event cards */}
+        {upcomingEvents.length > 0 ? (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {upcomingEvents.map((event) => (
               <article
                 key={event.id}
-                className="flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg border border-gray-100 transition-shadow duration-200"
+                className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
               >
-                <div className="relative h-48 w-full overflow-hidden bg-gray-200">
+                {/* Event image */}
+                <div className="relative h-52 overflow-hidden bg-slate-200">
                   <img
                     src={event.image}
                     alt={event.title}
-                    className="h-full w-full object-cover hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                   />
-                  <span className="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-semibold bg-blue-600/90 text-white backdrop-blur-sm">
+
+                  <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1.5 text-xs font-bold text-indigo-700 shadow-sm">
                     {event.category}
                   </span>
                 </div>
 
-                <div className="flex flex-col flex-grow p-5">
-                  <h2 className="text-xl font-bold text-gray-900 line-clamp-1">
+                {/* Event information */}
+                <div className="flex flex-1 flex-col p-5">
+                  <h3 className="text-xl font-bold leading-snug text-slate-900">
                     {event.title}
-                  </h2>
+                  </h3>
 
-                  <div className="mt-2 space-y-1 text-xs sm:text-sm text-gray-500">
-                    <p className="flex items-center gap-1.5 font-medium text-gray-700">
-                      <span>Date:</span>
+                  <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">
+                    {event.description}
+                  </p>
+
+                  <div className="mt-5 space-y-3 border-t border-slate-100 pt-4">
+                    <p className="flex items-start gap-3 text-sm text-slate-600">
+                      <span aria-hidden="true">📅</span>
                       <span>
-                        {new Date(event.date).toLocaleDateString("en-KE", {
-                          weekday: "short",
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                        })}
+                        <span className="font-semibold text-slate-800">
+                          {formatDate(event.date)}
+                        </span>
+                        <span className="block text-slate-500">
+                          {event.time}
+                        </span>
                       </span>
                     </p>
-                    <p className="flex items-center gap-1.5">
-                      <span>Venue:</span>
+
+                    <p className="flex items-start gap-3 text-sm text-slate-600">
+                      <span aria-hidden="true">📍</span>
                       <span>{event.venue}</span>
                     </p>
                   </div>
 
-                  <p className="mt-3 text-sm text-gray-600 line-clamp-3 flex-grow">
-                    {event.description}
-                  </p>
+                  {/* Price and details button */}
+                  <div className="mt-auto flex items-center justify-between gap-3 border-t border-slate-100 pt-5 mt-5">
+                    <div>
+                      <p className="text-xs text-slate-500">Tickets from</p>
+                      <p className="text-lg font-extrabold text-indigo-700">
+                        {event.price}
+                      </p>
+                    </div>
 
-                  <div className="mt-5 pt-4 border-t border-gray-100 flex items-center justify-between gap-3">
-                    {startingPrice !== null && (
-                      <div>
-                        <span className="block text-xs uppercase tracking-wider text-gray-400 font-semibold">
-                          From
-                        </span>
-                        <span className="text-base font-extrabold text-gray-900">
-                          KES {startingPrice.toLocaleString()}
-                        </span>
-                      </div>
-                    )}
-
-                    <Link
-                      to={`/events/${event.id}`}
-                      className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-xl shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition ml-auto"
+                    <button
+                      type="button"
+                      onClick={() => setSelectedEvent(event)}
+                      className="rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-200"
                     >
-                      Get Tickets
-                    </Link>
+                      View Details
+                    </button>
                   </div>
                 </div>
               </article>
-            );
-          })}
-        </div>
-      )}
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center">
+            <p className="text-lg font-bold text-slate-800">
+              No events found
+            </p>
+            <p className="mt-2 text-slate-500">
+              Try a different search term or category.
+            </p>
+          </div>
+        )}
+
+        {/* Event details modal */}
+        {selectedEvent && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-950/70 p-4"
+            onClick={() => setSelectedEvent(null)}
+          >
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="event-modal-title"
+              className="my-auto w-full max-w-xl overflow-hidden rounded-2xl bg-white shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={selectedEvent.image}
+                alt={selectedEvent.title}
+                className="h-56 w-full bg-slate-200 object-cover"
+              />
+
+              <div className="p-6 sm:p-8">
+                <span className="text-sm font-bold text-indigo-600">
+                  {selectedEvent.category}
+                </span>
+
+                <h2
+                  id="event-modal-title"
+                  className="mt-2 text-2xl font-extrabold text-slate-900"
+                >
+                  {selectedEvent.title}
+                </h2>
+
+                <p className="mt-4 leading-7 text-slate-600">
+                  {selectedEvent.description}
+                </p>
+
+                <div className="mt-5 space-y-3 text-sm text-slate-700">
+                  <p>📅 {formatDate(selectedEvent.date)}</p>
+                  <p>🕒 {selectedEvent.time}</p>
+                  <p>📍 {selectedEvent.venue}</p>
+                  <p className="font-bold text-indigo-700">
+                    Ticket price: {selectedEvent.price}
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setSelectedEvent(null)}
+                  className="mt-7 w-full rounded-xl bg-indigo-600 px-5 py-3 font-semibold text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-200"
+                >
+                  Close Details
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </section>
   );
 }
-export default EventList;
+
+export default Eventlist;

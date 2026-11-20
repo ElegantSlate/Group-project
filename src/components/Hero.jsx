@@ -1,23 +1,23 @@
-
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 function Hero() {
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
 
   const handleSearch = (e) => {
     e.preventDefault();
-    console.log("Searching for:", search);
+    navigate(`/events?search=${encodeURIComponent(search.trim())}`);
   };
 
   return (
     <section className="relative min-h-[650px] flex items-center justify-center overflow-hidden bg-slate-950">
-
       {/* Background image */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
           backgroundImage:
-            "url('https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=2000')",
+            "url('https://unsplash.com')",
         }}
       ></div>
 
@@ -26,13 +26,10 @@ function Hero() {
 
       {/* Hero content */}
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-24 text-center">
-
-        {/* Small label */}
         <span className="inline-block mb-6 px-5 py-2 rounded-full border border-purple-400/50 bg-purple-500/20 text-purple-200 text-sm font-semibold tracking-wider">
           ✨ YOUR NEXT EXPERIENCE STARTS HERE
         </span>
 
-        {/* Main heading */}
         <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold text-white leading-tight mb-6">
           Discover Events.
           <br />
@@ -41,7 +38,6 @@ function Hero() {
           </span>
         </h1>
 
-        {/* Description */}
         <p className="text-gray-200 text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
           From electrifying concerts to unforgettable experiences,
           find your next event and secure your tickets in just a few clicks.
@@ -73,26 +69,23 @@ function Hero() {
 
         {/* Action buttons */}
         <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">
-
-          <a
-            href="#events"
+          <Link
+            to="/events"
             className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold px-9 py-4 rounded-xl shadow-lg transition duration-300 hover:-translate-y-1"
           >
             Explore Events →
-          </a>
+          </Link>
 
-          <a
-            href="#about"
+          <Link
+            to="/about"
             className="border border-white/60 hover:bg-white hover:text-purple-900 text-white font-bold px-9 py-4 rounded-xl transition duration-300"
           >
             Learn More
-          </a>
-
+          </Link>
         </div>
 
         {/* Bottom information */}
         <div className="flex flex-wrap justify-center gap-8 mt-14 text-white">
-
           <div>
             <h3 className="text-2xl font-bold text-purple-300">Easy</h3>
             <p className="text-sm text-gray-300">Ticket Booking</p>
@@ -111,7 +104,6 @@ function Hero() {
             <h3 className="text-2xl font-bold text-purple-300">Fun</h3>
             <p className="text-sm text-gray-300">Unforgettable Events</p>
           </div>
-
         </div>
       </div>
     </section>

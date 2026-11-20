@@ -1,13 +1,13 @@
-import EventList from "../components/EventList";
 import Hero from "../components/Hero";
-import Home from "../components/home";
+import HomeBanner from "../components/home.jsx";
+import Eventlist from "../components/EventList.jsx";
 
-export default function HomePage() {
+export default function Home() {
   return (
     <>
       <Hero />
-      <EventList />
+      <HomeBanner />
+      <Eventlist />
     </>
-  )
-
+  );
 }
