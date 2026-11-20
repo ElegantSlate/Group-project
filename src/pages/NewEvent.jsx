@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getStoredEvents, saveStoredEvents } from "../data/eventsData";
 
+const API = "http://localhost:3001";
+
 export default function NewEvent() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
@@ -11,24 +13,26 @@ export default function NewEvent() {
   const [venue, setVenue] = useState("");
   const [regularPrice, setRegularPrice] = useState("");
   const [description, setDescription] = useState("");
-  const [value, setValue] = useState("");
+  const [image, setImage] = useState("");
+  const [saving, setSaving] = useState(false);
 
-
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
+    setSaving(true);
+
     const events = getStoredEvents();
     const basePrice = Number(regularPrice) || 1000;
 
     const created = {
       id: String(Date.now()),
-      name: title,
-      title,
+      name: title.trim(),
+      title: title.trim(),
       category,
       date,
-      time: time || "6:00 PM",
-      venue,
-      location: venue,
-      description,
+      time: time.trim() || "6:00 PM",
+      venue: venue.trim(),
+      location: venue.trim(),
+      description: description.trim(),
       image:
         image.trim() ||
         "https://unsplash.com",
@@ -40,7 +44,19 @@ export default function NewEvent() {
     };
 
     saveStoredEvents([created, ...events]);
-    navigate("/events");
+
+    try {
+      await fetch(`${API}/events`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(created),
+      });
+    } catch {
+      // Ignore if json-server is offline
+    } finally {
+      setSaving(false);
+      navigate("/events");
+    }
   }
 
   return (
@@ -116,9 +132,10 @@ export default function NewEvent() {
         />
         <button
           type="submit"
-          className="w-full rounded-lg bg-indigo-600 py-3 font-bold text-white hover:bg-indigo-700"
+          disabled={saving}
+          className="w-full rounded-lg bg-indigo-600 py-3 font-bold text-white hover:bg-indigo-700 disabled:opacity-50"
         >
-          Publish Event
+          {saving ? "Publishing..." : "Publish Event"}
         </button>
       </form>
     </section>
