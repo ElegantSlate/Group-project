@@ -1,3 +1,5 @@
+import TicketBooking from "../components/TicketBooking";
+
 export default function EventDetail() {
-  return <h1>Event Detail</h1>;
+  return <TicketBooking />;
 }
