@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import Header from "./components/Header";
+// import Header from "./components/Header";
 import Footer from "./components/Footer.jsx";
 import Home from "./pages/Home.jsx";
 import Events from "./pages/Events.jsx";
@@ -8,14 +8,15 @@ import EventDetail from "./pages/EventDetail.jsx";
 import CheckoutPage from "./pages/CheckoutPage.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import TicketingBooking from "./components/TicketBooking.jsx";
+import HomePage from "./pages/Home.jsx";
 
 function App() {
   return (
     <div className="app">
-      <Header />
+      {/* <Header /> */}
       <main>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route index element={<HomePage />} />
           <Route path="/events" element={<Events />} />
           <Route path="/events/new" element={<NewEvent />} />
           <Route path="/events/:id" element={<EventDetail />} />
